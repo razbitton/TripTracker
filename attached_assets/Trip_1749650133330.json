@@ -1,0 +1,74 @@
+{
+  "name": "Trip",
+  "type": "object",
+  "properties": {
+    "pickup_location": {
+      "type": "string",
+      "description": "מיקום איסוף"
+    },
+    "destination": {
+      "type": "string",
+      "description": "יעד"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "accepted",
+        "in_progress",
+        "completed",
+        "cancelled"
+      ],
+      "default": "pending",
+      "description": "סטטוס הנסיעה"
+    },
+    "price": {
+      "type": "number",
+      "description": "מחיר הנסיעה"
+    },
+    "driver_id": {
+      "type": "string",
+      "description": "מזהה הנהג"
+    },
+    "passenger_notes": {
+      "type": "string",
+      "description": "הערות"
+    },
+    "passenger_count": {
+      "type": "number",
+      "description": "מספר נוסעים"
+    },
+    "estimated_duration": {
+      "type": "number",
+      "description": "זמן משוער בדקות"
+    },
+    "vehicle_type": {
+      "type": "string",
+      "enum": [
+        "trip",
+        "delivery"
+      ],
+      "description": "סוג הנסיעה"
+    },
+    "channel_id": {
+      "type": "string",
+      "description": "מזהה ערוץ"
+    },
+    "client_phone": {
+      "type": "string",
+      "description": "טלפון לקוח"
+    },
+    "pickup_details": {
+      "type": "string",
+      "description": "פרטי כתובת איסוף"
+    },
+    "publisher_email": {
+      "type": "string",
+      "description": "אימייל של מי שפרסם את הנסיעה"
+    }
+  },
+  "required": [
+    "pickup_location",
+    "destination"
+  ]
+} 

@@ -1,0 +1,49 @@
+{
+  "name": "Driver",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "שם הנהג"
+    },
+    "phone": {
+      "type": "string",
+      "description": "טלפון"
+    },
+    "vehicle_type": {
+      "type": "string",
+      "enum": [
+        "small_truck",
+        "medium_truck",
+        "large_truck"
+      ],
+      "description": "סוג הרכב"
+    },
+    "license_plate": {
+      "type": "string",
+      "description": "מספר רכב"
+    },
+    "rating": {
+      "type": "number",
+      "minimum": 1,
+      "maximum": 5,
+      "default": 5,
+      "description": "דירוג"
+    },
+    "is_available": {
+      "type": "boolean",
+      "default": true,
+      "description": "זמין"
+    },
+    "current_location": {
+      "type": "string",
+      "description": "מיקום נוכחי"
+    }
+  },
+  "required": [
+    "name",
+    "phone",
+    "vehicle_type",
+    "license_plate"
+  ]
+} 

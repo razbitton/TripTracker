@@ -1,0 +1,44 @@
+{
+  "name": "Notification",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "כותרת ההודעה"
+    },
+    "subtitle": {
+      "type": "string",
+      "description": "תת כותרת"
+    },
+    "details": {
+      "type": "string",
+      "description": "פרטים נוספים"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "personal",
+        "system"
+      ],
+      "default": "personal",
+      "description": "סוג ההודעה"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "new",
+        "read"
+      ],
+      "default": "new",
+      "description": "סטטוס ההודעה"
+    },
+    "trip_id": {
+      "type": "string",
+      "description": "מזהה נסיעה קשורה"
+    }
+  },
+  "required": [
+    "title",
+    "subtitle"
+  ]
+} 
