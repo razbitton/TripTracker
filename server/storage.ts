@@ -70,7 +70,11 @@ export class MemStorage implements IStorage {
         status: "accepted",
         price: "120",
         driver_id: "chaim@example.com",
+        passenger_notes: null,
+        passenger_count: null,
+        estimated_duration: null,
         vehicle_type: "trip",
+        channel_id: null,
         client_phone: "052-1234567",
         pickup_details: "מיידי",
         publisher_email: "chaim@example.com",
@@ -84,7 +88,11 @@ export class MemStorage implements IStorage {
         status: "accepted",
         price: "85",
         driver_id: "chaim@example.com",
+        passenger_notes: null,
+        passenger_count: null,
+        estimated_duration: null,
         vehicle_type: "delivery",
+        channel_id: null,
         client_phone: "052-9876543",
         pickup_details: "מחר בשעה 08:00",
         publisher_email: "chaim@example.com",
@@ -97,9 +105,16 @@ export class MemStorage implements IStorage {
         destination: "פתח תקווה, רחוב רוטשילד 12",
         status: "pending",
         price: "65",
+        driver_id: null,
+        passenger_notes: null,
+        passenger_count: null,
+        estimated_duration: null,
         vehicle_type: "trip",
+        channel_id: null,
         client_phone: "052-5555555",
         pickup_details: "מיידי",
+        publisher_email: null,
+        created_by: null,
         created_date: new Date(),
       },
       {
@@ -108,7 +123,12 @@ export class MemStorage implements IStorage {
         destination: "באר שבע, רחוב רגר 22",
         status: "pending",
         price: "140",
+        driver_id: null,
+        passenger_notes: null,
+        passenger_count: null,
+        estimated_duration: null,
         vehicle_type: "delivery",
+        channel_id: null,
         client_phone: "052-7777777",
         pickup_details: "היום בשעה 16:22",
         publisher_email: "chaim@example.com",
@@ -128,6 +148,7 @@ export class MemStorage implements IStorage {
         details: "מיקום: רחוב דיזנגוף 100",
         type: "personal",
         status: "new",
+        trip_id: null,
         created_date: new Date(),
       },
       {
@@ -137,14 +158,17 @@ export class MemStorage implements IStorage {
         details: "משלוח לרמת גן - ₪65",
         type: "personal",
         status: "new",
+        trip_id: null,
         created_date: new Date(),
       },
       {
         id: this.currentNotificationId++,
         title: "עדכון מערכת",
         subtitle: "המערכת תהיה לא זמינה למספר דקות בלילה",
+        details: null,
         type: "system",
         status: "new",
+        trip_id: null,
         created_date: new Date(),
       },
     ];
@@ -185,9 +209,22 @@ export class MemStorage implements IStorage {
 
   async createTrip(insertTrip: InsertTrip): Promise<Trip> {
     const id = this.currentTripId++;
-    const trip: Trip = { 
-      ...insertTrip, 
+    const trip: Trip = {
       id,
+      pickup_location: insertTrip.pickup_location,
+      destination: insertTrip.destination,
+      status: insertTrip.status ?? null,
+      price: insertTrip.price ?? null,
+      driver_id: insertTrip.driver_id ?? null,
+      passenger_notes: insertTrip.passenger_notes ?? null,
+      passenger_count: insertTrip.passenger_count ?? null,
+      estimated_duration: insertTrip.estimated_duration ?? null,
+      vehicle_type: insertTrip.vehicle_type ?? null,
+      channel_id: insertTrip.channel_id ?? null,
+      client_phone: insertTrip.client_phone ?? null,
+      pickup_details: insertTrip.pickup_details ?? null,
+      publisher_email: insertTrip.publisher_email ?? null,
+      created_by: insertTrip.created_by ?? null,
       created_date: new Date(),
     };
     this.trips.set(id, trip);
@@ -197,8 +234,23 @@ export class MemStorage implements IStorage {
   async updateTrip(id: number, tripUpdate: Partial<InsertTrip>): Promise<Trip | undefined> {
     const existingTrip = this.trips.get(id);
     if (!existingTrip) return undefined;
-    
-    const updatedTrip: Trip = { ...existingTrip, ...tripUpdate };
+
+    const updatedTrip: Trip = {
+      ...existingTrip,
+      ...tripUpdate,
+      status: tripUpdate.status ?? existingTrip.status,
+      price: tripUpdate.price ?? existingTrip.price,
+      driver_id: tripUpdate.driver_id ?? existingTrip.driver_id,
+      passenger_notes: tripUpdate.passenger_notes ?? existingTrip.passenger_notes,
+      passenger_count: tripUpdate.passenger_count ?? existingTrip.passenger_count,
+      estimated_duration: tripUpdate.estimated_duration ?? existingTrip.estimated_duration,
+      vehicle_type: tripUpdate.vehicle_type ?? existingTrip.vehicle_type,
+      channel_id: tripUpdate.channel_id ?? existingTrip.channel_id,
+      client_phone: tripUpdate.client_phone ?? existingTrip.client_phone,
+      pickup_details: tripUpdate.pickup_details ?? existingTrip.pickup_details,
+      publisher_email: tripUpdate.publisher_email ?? existingTrip.publisher_email,
+      created_by: tripUpdate.created_by ?? existingTrip.created_by,
+    };
     this.trips.set(id, updatedTrip);
     return updatedTrip;
   }
@@ -217,7 +269,16 @@ export class MemStorage implements IStorage {
 
   async createDriver(insertDriver: InsertDriver): Promise<Driver> {
     const id = this.currentDriverId++;
-    const driver: Driver = { ...insertDriver, id };
+    const driver: Driver = {
+      id,
+      name: insertDriver.name,
+      phone: insertDriver.phone,
+      vehicle_type: insertDriver.vehicle_type,
+      license_plate: insertDriver.license_plate,
+      rating: insertDriver.rating ?? "5",
+      is_available: insertDriver.is_available ?? true,
+      current_location: insertDriver.current_location ?? null,
+    };
     this.drivers.set(id, driver);
     return driver;
   }
@@ -236,9 +297,14 @@ export class MemStorage implements IStorage {
 
   async createNotification(insertNotification: InsertNotification): Promise<Notification> {
     const id = this.currentNotificationId++;
-    const notification: Notification = { 
-      ...insertNotification, 
+    const notification: Notification = {
       id,
+      title: insertNotification.title,
+      subtitle: insertNotification.subtitle,
+      details: insertNotification.details ?? null,
+      type: insertNotification.type ?? null,
+      status: insertNotification.status ?? null,
+      trip_id: insertNotification.trip_id ?? null,
       created_date: new Date(),
     };
     this.notifications.set(id, notification);
@@ -249,7 +315,14 @@ export class MemStorage implements IStorage {
     const existingNotification = this.notifications.get(id);
     if (!existingNotification) return undefined;
     
-    const updatedNotification: Notification = { ...existingNotification, ...notificationUpdate };
+    const updatedNotification: Notification = {
+      ...existingNotification,
+      ...notificationUpdate,
+      details: notificationUpdate.details ?? existingNotification.details,
+      type: notificationUpdate.type ?? existingNotification.type,
+      status: notificationUpdate.status ?? existingNotification.status,
+      trip_id: notificationUpdate.trip_id ?? existingNotification.trip_id,
+    };
     this.notifications.set(id, updatedNotification);
     return updatedNotification;
   }

@@ -17,17 +17,17 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
   const [trips, setTrips] = useState<Trip[]>([]);
   const [notifications, setNotifications] = useState<Notification[]>([]);
 
-  const { data: userData, isLoading: userLoading, refetch: refetchUser } = useQuery({
+  const { data: userData, isLoading: userLoading, refetch: refetchUser } = useQuery<User | null>({
     queryKey: ['/api/users/me'],
     retry: false,
   });
 
-  const { data: tripsData, isLoading: tripsLoading, refetch: refetchTrips } = useQuery({
+  const { data: tripsData, isLoading: tripsLoading, refetch: refetchTrips } = useQuery<Trip[]>({
     queryKey: ['/api/trips?orderBy=-created_date'],
     retry: false,
   });
 
-  const { data: notificationsData, isLoading: notificationsLoading, refetch: refetchNotifications } = useQuery({
+  const { data: notificationsData, isLoading: notificationsLoading, refetch: refetchNotifications } = useQuery<Notification[]>({
     queryKey: ['/api/notifications?orderBy=-created_date'],
     retry: false,
   });
